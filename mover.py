@@ -24,7 +24,8 @@ class Mover(object):
     def update(self):
         # Reenable this line to get the rects follow the mouse
         # mouse_pos = pygame.mouse.get_pos()
-        mouse_pos = (self.screen_width / 2 + 0.05, self.screen_height / 2 + 0.05)
+        mouse_pos = (self.screen_width / 2 + 0.05,
+                     self.screen_height / 2 + 0.05)
         v_mouse = pvector.PVector(mouse_pos[0], mouse_pos[1])
 
         self.acceleration = pvector.PVector.s_sub(v_mouse, self.location)
@@ -33,7 +34,7 @@ class Mover(object):
         self.acceleration.mult(0.25)
 
         self.velocity.add(self.acceleration)
-        self.limit(self.max_velo)
+        self.velocity.limit(self.max_velo)
         self.location.add(self.velocity)
 
         self.check_edges()
@@ -52,8 +53,3 @@ class Mover(object):
             self.location.y = 0
         elif self.location.y < 0:
             self.location.y = self.screen_height
-
-    def limit(self, max):
-        if self.velocity.mag() > max:
-            self.velocity.normalize()
-            self.velocity.mult(max)
