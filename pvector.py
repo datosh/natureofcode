@@ -1,3 +1,6 @@
+import math
+
+
 class PVector(object):
 
     """A 2d (or later 3d) vector for easy calculation."""
@@ -7,8 +10,56 @@ class PVector(object):
         self.x = x
         self.y = y
 
+    def __str__(self):
+        return 'x: {}, y: {}'.format(self.x, self.y)
+
+    def set(self, x, y):
+        '''Sets the values of x and y accordingly'''
+        self.x = x
+        self.y = y
+
     def add(self, v):
+        '''Add another vector v to this vector'''
         self.x = self.x + v.x
         self.y = self.y + v.y
 
+    @staticmethod
+    def s_add(a, b):
+        '''Adds the supplied vectors and returns a new vector object'''
+        return PVector(a.x + b.x, a.y + b.y)
 
+    def sub(self, v):
+        '''Substract another vector v from this vector'''
+        self.x = self.x - v.x
+        self.y = self.y - v.y
+
+    @staticmethod
+    def s_sub(a, b):
+        '''Subtracts b from a (a-b) and returns a new vector object'''
+        return PVector(a.x - b.x, a.y - b.y)
+
+    def mult(self, n):
+        '''Multiply the vector with the scalar n'''
+        self.x = self.x * n
+        self.y = self.y * n
+
+    def div(self, n):
+        '''Divide the vector by the scalar n'''
+        self.x = self.x / n
+        self.y = self.y / n
+
+    def mag(self):
+        '''Returns the magnitude of the vector'''
+        return math.sqrt(self.x * self.x + self.y * self.y)
+
+    def normalize(self):
+        '''Normalizes this vector.'''
+        m = self.mag()
+        if m:
+            self.div(m)
+
+    def limit(self, max):
+        '''Limits the vector to the supplied max value'''
+        if self.mag() > max:
+            self.normalize()
+            self.mult(max)
