@@ -63,3 +63,7 @@ class PVector(object):
         if self.mag() > max:
             self.normalize()
             self.mult(max)
+
+    def copy(self):
+        '''Returns a deep copy of the PVector object'''
+        return PVector(self.x, self.y)
