@@ -67,3 +67,7 @@ class PVector(object):
     def copy(self):
         '''Returns a deep copy of the PVector object'''
         return PVector(self.x, self.y)
+
+    def angle(self):
+        '''Returns the angle of the vector in radians.'''
+        return math.atan2(self.x, self.y)

@@ -33,6 +33,7 @@ class WindyBall(game.Game):
 
         for m in self.movers:
             m.update()
+            print(m.velocity.angle())
 
     def draw(self, surf):
         for m in self.movers:
