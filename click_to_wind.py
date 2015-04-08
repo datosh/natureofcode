@@ -12,25 +12,31 @@ class WindyBall(game.Game):
     def __init__(self):
         super(WindyBall, self).__init__()
 
-        self.mover = mover.Mover(self.WINDOWWIDTH, self.WINDOWHEIGHT)
+        self.movers = [mover.Mover(self.WINDOWWIDTH, self.WINDOWHEIGHT)
+                       for _ in range(2)]
 
     def evnt_hndlr(self, event):
         if event.type == MOUSEBUTTONDOWN:
             if event.button == 1:
                 wind = pvector.PVector(3, 0)
-                self.mover.applyForce(wind)
+                for m in self.movers:
+                    m.applyForce(wind)
             elif event.button == 3:
                 wind = pvector.PVector(-3, 0)
-                self.mover.applyForce(wind)
+                for m in self.movers:
+                    m.applyForce(wind)
 
     def update(self, delta):
         gravity = pvector.PVector(0, .86)
-        self.mover.applyForce(gravity)
+        for m in self.movers:
+            m.applyGravity(gravity)
 
-        self.mover.update()
+        for m in self.movers:
+            m.update()
 
     def draw(self, surf):
-        self.mover.display(surf)
+        for m in self.movers:
+            m.display(surf)
 
 if __name__ == '__main__':
     b = WindyBall()
