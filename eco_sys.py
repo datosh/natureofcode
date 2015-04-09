@@ -2,7 +2,6 @@ import math
 import game
 import pygame
 import pvector
-import random
 
 from pygame.locals import *
 

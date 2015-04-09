@@ -5,10 +5,16 @@ class PVector(object):
 
     """A 2d (or later 3d) vector for easy calculation."""
 
-    def __init__(self, x=0, y=0):
+    def __init__(self, x=0, y=0, isCartesian=True):
         super(PVector, self).__init__()
-        self.x = x
-        self.y = y
+        if isCartesian:
+            self.x = x
+            self.y = y
+        else:
+            r = x
+            theta = y
+            self.x = r * math.sin(theta)
+            self.y = r * math.cos(theta)
 
     def __str__(self):
         return 'x: {}, y: {}'.format(self.x, self.y)
