@@ -17,7 +17,8 @@ class PVector(object):
             self.y = r * math.cos(theta)
 
     def __str__(self):
-        return 'x: {0:2f}, y: {1:2f}'.format(self.x, self.y)
+        # Leave the space in the format string to keep space for sign
+        return 'x: {0: .2f}, y: {1: .2f}'.format(self.x, self.y)
 
     def set(self, x, y):
         '''Sets the values of x and y accordingly'''
