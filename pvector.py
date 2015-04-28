@@ -17,7 +17,7 @@ class PVector(object):
             self.y = r * math.cos(theta)
 
     def __str__(self):
-        return 'x: {}, y: {}'.format(self.x, self.y)
+        return 'x: {0:2f}, y: {1:2f}'.format(self.x, self.y)
 
     def set(self, x, y):
         '''Sets the values of x and y accordingly'''
@@ -48,6 +48,12 @@ class PVector(object):
         '''Multiply the vector with the scalar n'''
         self.x = self.x * n
         self.y = self.y * n
+
+    @staticmethod
+    def s_mult(a, n):
+        '''Multiplies both parts of the vector with n, and returns a new vector
+        object'''
+        return PVector(a.x * n, a.y * n)
 
     def div(self, n):
         '''Divide the vector by the scalar n'''

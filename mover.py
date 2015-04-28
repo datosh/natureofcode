@@ -14,18 +14,18 @@ class Mover(object):
         self.velocity = pvector.PVector(0, 0)
         self.acceleration = pvector.PVector(0, 0)
 
-        self.mass = 12
+        self.mass = 1
         self.max_velo = 40
+        self.do_limit = False
 
-        # The gravitational constant
+        # The gravitational constant for attraction
         self.G = 0.05
-
-        self.size = 3
 
     def update(self):
         # Update the vectors
         self.velocity.add(self.acceleration)
-        self.velocity.limit(self.max_velo)
+        if self.do_limit:
+            self.velocity.limit(self.max_velo)
         self.location.add(self.velocity)
 
         # Reset the acceleration, so the forces can be added up in the
@@ -33,8 +33,12 @@ class Mover(object):
         self.acceleration.mult(0)
 
     def display(self, surface):
-        width = 1.1 * self.mass
-        height = 2.3 * self.mass
+        '''Is used to display a dummy, the display function should be
+        overwritten when extending this class. Here we just show a rectangle
+        that grows, the more mass the mover object has'''
+
+        width = 1 * self.mass
+        height = 1 * self.mass
 
         # get the angle and convert to degrees
         angle = self.velocity.angle()

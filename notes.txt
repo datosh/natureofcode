@@ -1,0 +1,60 @@
+Running:
+
+same direction:
+
+if K_d and moving right
+    add acc: 0.046875
+if K_a and moving left
+    sub acc: 0.046975, i.e. add the negative
+
+opposite direction:
+
+if K_d and moving left
+    add dec: 0.5 (about as 10 times higher than acc)
+if K_a and moving right
+    sub dec: 0.5, i.e. add the negative
+if sign has changed in the process:
+    set xsp to dec resp. -dec. This brings the advantage that the player can press left, and then right in quick succession to get a little 'speed boost'
+
+This should be equal to add force?
+Motivation: If the sprite takes to long to turn around you slide of a cliff!
+
+if neither K_a nor K_d are pressed
+    apply friction, frc: 0.046875, i.e. same as acc
+    or if velo is already less than frc set to zero.
+
+Set a maxmial speed not this way
+top = 6
+if xvelocity > top:
+    xvelocity = top
+if we do. outer sources cant speed us up any higher.
+If xvelocity < top:
+    apply more velocity
+
+Animation:
+    We need 2 basic animations:
+        Idle, if and only if, the horizontal velocity is exactly zero
+    Running:
+        If the velocity is != zero, flip the images for running in the other direction
+
+
+Jumping:
+
+The air acceleration is twice as high; air: 0.9375
+There is neither friction, nor deceleration while jumping. Pressing left or right will simply add or sub air. But the top speed is still 6.
+
+Gravity has a strength of; grv: 0.21875
+
+air drag:
+    if jumping up, y speed > -4, e.g. -3.5, jumping not that fast up
+        xspeed = xspeed - xspeed * 0.9234
+    have another look at this ????
+
+Variable jump height:
+    if moving upwards, i.e. Y speed < 0
+        Y speed < -4, e.g. -5
+            set the Y speed to -4
+                therefore only the tiny restjump is done
+
+
+
