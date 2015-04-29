@@ -58,3 +58,18 @@ Variable jump height:
 
 
 
+Collision:
+    Collider has to extend pygame.sprite.Sprite so we can use the
+        pygame.sprite.sprtecollide() method for easy collision detection.
+    Each object in the game has a collider attached.
+    We can set solid varibale, to determine whether or not collision detection includes this collier
+
+Tile:
+    It has to extend pygame.sprite.Sprite so we can use the
+        pygame.sprite.spritecollide() method for easy collision detection
+    Sprite gives this object a rect, i.e. position, and width and height, and
+        also an image.
+    Nonmoveable object.
+
+Level:
+    Each level has to have a list of tiles,

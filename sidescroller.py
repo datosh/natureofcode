@@ -6,6 +6,41 @@ from pvector import PVector
 from pygame.locals import *
 
 
+class AnimationController(object):
+
+    """Handles the animations of the character, therefore we need the sprite
+    that is linked to this animation controller. Maybe other inputs?"""
+
+    def __init__(self, arg):
+        super(AnimationController, self).__init__()
+        self.arg = arg
+
+
+class Collider(pygame.sprite.Sprite):
+
+    """docstring for Collider"""
+
+    def __init__(self, sprite, width, height, xoff=0, yoff=0, color='green'):
+        super(Collider, self).__init__()
+
+        self.sprite = sprite
+        self.xoff = xoff
+        self.yoff = yoff
+
+        self.image = pygame.Surface([width, height])
+        self.rect = self.image.get_rect()
+        self.image.fill(pygame.Color(color))
+
+    def update(self):
+        self.rect.centerx = self.sprite.location.x + self.xoff
+        self.rect.centerx += self.sprite.width / 2
+        self.rect.centery = self.sprite.location.y + self.yoff
+        self.rect.centery += self.sprite.height / 2
+
+    def draw(self, surf):
+        surf.blit(self.image, (self.rect.x, self.rect.y))
+
+
 class Sprite(mover.Mover):
 
     """Extends the Mover to also have an image, so it becomes a sprite"""
@@ -13,13 +48,36 @@ class Sprite(mover.Mover):
     def __init__(self, x, y, image_path=""):
         super(Sprite, self).__init__(x, y)
 
-        self.image = pygame.Surface([25, 25])
-        self.image.fill(pygame.Color('blue'))
+        # Placeholder for an image for the character
+        # TODO: Replace this with an animation object that returns an image
+        #       every frame
+        self.width = 32
+        self.height = 42
+        self.image = pygame.Surface([self.width, self.height])
+        self.image.fill(pygame.Color('cyan'))
 
+        # Collider
+        self.collider_t = Collider(self, 10, 10, xoff=0, yoff=-25)
+        self.collider_b = Collider(self, 10, 10,
+                                   xoff=0, yoff=25, color='blue')
+        self.collider_rt = Collider(self, 10, 10,
+                                    xoff=20, yoff=-15, color='red')
+        self.collider_rb = Collider(self, 10, 10,
+                                    xoff=20, yoff=15, color='red')
+        self.collider_lt = Collider(self, 10, 10,
+                                    xoff=-20, yoff=-15, color='yellow')
+        self.collider_lb = Collider(self, 10, 10,
+                                    xoff=-20, yoff=15, color='yellow')
+        self.colliders = [self.collider_t, self.collider_b,
+                          self.collider_rt, self.collider_rb,
+                          self.collider_lt, self.collider_lb]
+
+        # Possible states of the character.
         self.movingleft = False
         self.movingright = False
         self.jumping = False
 
+        # Constant values that determine the movement of the character
         self.acc_force_val = 1.5
         self.fri_force_val = .25
         self.grv_force_val = .2
@@ -37,6 +95,10 @@ class Sprite(mover.Mover):
         # Temporary to keep the sprite from falling through the bottom
         if self.location.y > 300:
             self.location.y = 300
+
+        # Update the collider position
+        for c in self.colliders:
+            c.update()
 
         # TODO: delete
         print(self.velocity, self.acceleration)
@@ -117,7 +179,13 @@ class Sprite(mover.Mover):
                 self.jumping = False
 
     def draw(self, surf):
+        # Draw the player image
+        # TODO: Does this change after implementation of animation controller?
         surf.blit(self.image, (self.location.x, self.location.y))
+
+        # Draw the collider(s)
+        for c in self.colliders:
+            c.draw(surf)
 
 
 class SimpleWindow(game.Game):
